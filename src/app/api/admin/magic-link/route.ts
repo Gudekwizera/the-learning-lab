@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   const loginUrl = `${siteUrl}/api/admin/verify?token=${token}`;
 
   await resend.emails.send({
-    from: "The Learning Lab <noreply@thelearninglab.dev>",
+    from: "The Learning Lab <onboarding@resend.dev>",
     to: email,
     subject: "Your magic login link",
     html: `
