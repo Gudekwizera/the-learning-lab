@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// LOCAL DEV: provider = "sqlite", DATABASE_URL = "file:./dev.db"
+// PRODUCTION: change provider to "postgresql", set DATABASE_URL to Neon connection string
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  weekNumber  Int
+  excerpt     String?
+  content     String
+  coverImage  String?
+  status      String     @default("DRAFT")
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  tags        Tag[]      @relation("PostTags")
+  comments    Comment[]
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  posts Post[] @relation("PostTags")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  name      String
+  message   String
+  approved  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Subscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  confirmedAt DateTime?
+  token       String    @unique
+  createdAt   DateTime  @default(now())
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  email     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+

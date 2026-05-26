@@ -1,26 +1,155 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-lora);
+  --font-mono: var(--font-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-brand: var(--brand);
+  --color-brand-subtle: var(--brand-subtle);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Light mode: warm parchment & amber ── */
+:root {
+  --background: oklch(0.975 0.008 75);       /* warm parchment #FAF8F3 */
+  --foreground: oklch(0.22 0.015 60);        /* dark warm brown #2D2A26 */
+  --card: oklch(0.955 0.01 75);              /* sand #F0EBE3 */
+  --card-foreground: oklch(0.22 0.015 60);
+  --surface: oklch(0.955 0.01 75);
+  --popover: oklch(0.975 0.008 75);
+  --popover-foreground: oklch(0.22 0.015 60);
+
+  /* brand = amber orange #D97B4F */
+  --brand: oklch(0.64 0.13 42);
+  --brand-subtle: oklch(0.91 0.04 42);       /* blush #F4DDD0 */
+
+  --primary: oklch(0.64 0.13 42);
+  --primary-foreground: oklch(0.99 0.005 75);
+
+  --secondary: oklch(0.91 0.04 42);
+  --secondary-foreground: oklch(0.22 0.015 60);
+
+  --muted: oklch(0.955 0.01 75);
+  --muted-foreground: oklch(0.52 0.025 50);  /* warm grey #8C7B6E */
+
+  --accent: oklch(0.91 0.04 42);
+  --accent-foreground: oklch(0.22 0.015 60);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.895 0.015 60);           /* #E2D9CE */
+  --input: oklch(0.895 0.015 60);
+  --ring: oklch(0.64 0.13 42);
+  --radius: 0.625rem;
+}
+
+/* ── Dark mode: walnut & ember ── */
+.dark {
+  --background: oklch(0.17 0.012 50);        /* dark walnut #1C1917 */
+  --foreground: oklch(0.935 0.012 75);       /* warm white #F5F0E8 */
+  --card: oklch(0.21 0.012 50);              /* warm charcoal #292524 */
+  --card-foreground: oklch(0.935 0.012 75);
+  --surface: oklch(0.21 0.012 50);
+  --popover: oklch(0.21 0.012 50);
+  --popover-foreground: oklch(0.935 0.012 75);
+
+  --brand: oklch(0.69 0.12 42);             /* ember #E8936A */
+  --brand-subtle: oklch(0.28 0.04 42);      /* dark blush */
+
+  --primary: oklch(0.69 0.12 42);
+  --primary-foreground: oklch(0.17 0.012 50);
+
+  --secondary: oklch(0.28 0.04 42);
+  --secondary-foreground: oklch(0.935 0.012 75);
+
+  --muted: oklch(0.25 0.012 50);
+  --muted-foreground: oklch(0.62 0.02 55);  /* muted warm grey */
+
+  --accent: oklch(0.28 0.04 42);
+  --accent-foreground: oklch(0.935 0.012 75);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.28 0.015 50);
+  --input: oklch(0.28 0.015 50);
+  --ring: oklch(0.69 0.12 42);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Prose styles for post content ── */
+@layer components {
+  .prose-blog {
+    @apply text-foreground leading-relaxed;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    max-width: 68ch;
+  }
+  .prose-blog h2 {
+    @apply font-serif text-2xl font-bold mt-10 mb-4 text-foreground;
+  }
+  .prose-blog h3 {
+    @apply font-serif text-xl font-semibold mt-8 mb-3 text-foreground;
+  }
+  .prose-blog p {
+    @apply mb-5;
+  }
+  .prose-blog a {
+    @apply text-primary underline underline-offset-4 hover:text-primary/80;
+  }
+  .prose-blog ul {
+    @apply list-disc pl-6 mb-5 space-y-1;
+  }
+  .prose-blog ol {
+    @apply list-decimal pl-6 mb-5 space-y-1;
+  }
+  .prose-blog blockquote {
+    @apply border-l-4 border-primary pl-5 italic text-muted-foreground my-6;
+  }
+  .prose-blog code {
+    @apply font-mono bg-muted px-1.5 py-0.5 rounded text-sm;
+  }
+  .prose-blog pre {
+    @apply bg-muted rounded-lg p-4 overflow-x-auto my-6;
+  }
+  .prose-blog pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose-blog hr {
+    @apply border-border my-8;
+  }
 }
